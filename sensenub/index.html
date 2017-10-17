@@ -1,0 +1,34 @@
+<button id="test">Test</button>
+
+<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.16.1.js"></script>
+
+<!-- Instantiate PubNub -->
+<script type="text/javascript">
+
+    var pubnub = new PubNub({
+        subscribeKey: "sub-c-f4d521fc-b32a-11e7-8d4b-66b981d3b880",
+        publishKey: "pub-c-c74cc51d-96d1-4126-b62e-73da4542d67b"
+    });
+
+    // Subscribe to the demo_tutorial channel
+	pubnub.addListener({
+	    message: function(message){
+	        console.log(message);
+	    }
+	});
+
+	pubnub.subscribe({ channels: ['test-channel'] });
+
+
+	(function() {
+		document.getElementById("test").addEventListener('click', function() {
+			pubnub.publish({
+			    message: {
+			        "color" : "blue"
+			    },
+			    channel: 'test-channel'
+			});
+		});
+	})();
+
+</script>

@@ -1,0 +1,14 @@
+{
+  "name": "sensenub",
+  "version": "1.0.0",
+  "description": "A Raspberry Pi 3 Sensehat dashboard application using Exress.js and Pubnub",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ilona Zancaner & Sander Van Damme",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
