@@ -1,8 +1,10 @@
-<button id="test">Test</button>
-
-<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.16.1.js"></script>
+<input type="text" id="input">
+<button id="test">Send</button>
+<button id="test2">Send red</button>
+<div id="chat"></div>
 
 <!-- Instantiate PubNub -->
+<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.16.1.js"></script>
 <script type="text/javascript">
 
     var pubnub = new PubNub({
@@ -10,25 +12,39 @@
         publishKey: "pub-c-c74cc51d-96d1-4126-b62e-73da4542d67b"
     });
 
-    // Subscribe to the demo_tutorial channel
-	pubnub.addListener({
-	    message: function(message){
-	        console.log(message);
-	    }
-	});
+    pubnub.addListener({
+        message: function(data){
+            document.getElementById("chat").innerHTML = '<span style="color: ' + data.message.color + '">' + data.message.text + '</span><br>' + document.getElementById("chat").innerHTML;
+            console.log(data);
+        }
+    });
 
-	pubnub.subscribe({ channels: ['test-channel'] });
+    pubnub.subscribe({ channels: ['test-channel'] });
 
+    (function() {
 
-	(function() {
-		document.getElementById("test").addEventListener('click', function() {
-			pubnub.publish({
-			    message: {
-			        "color" : "blue"
-			    },
-			    channel: 'test-channel'
-			});
-		});
-	})();
+        document.getElementById("test").addEventListener('click', function() {
+            message = document.getElementById("input").value;
+            pubnub.publish({
+                message: {
+                    text: message,
+                    color: 'black'
+                },
+                channel: 'test-channel'
+            });
+        });
+
+        document.getElementById("test2").addEventListener('click', function() {
+            message = document.getElementById("input").value;
+            pubnub.publish({
+                message: {
+                    text: message,
+                    color: 'red'
+                },
+                channel: 'test-channel'
+            });
+        });
+
+    })();
 
 </script>
