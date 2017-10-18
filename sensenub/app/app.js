@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var PubNub = require('pubnub');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -15,12 +16,30 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
-// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var initPubnub = function (req, res, next) {
+  var pubnub = new PubNub({
+        subscribeKey: "sub-c-f4d521fc-b32a-11e7-8d4b-66b981d3b880",
+        publishKey: "pub-c-c74cc51d-96d1-4126-b62e-73da4542d67b"
+    });
+
+    pubnub.addListener({
+        message: function(data) {
+            console.log(data);
+        }
+    });
+
+    pubnub.subscribe({ channels: ['test-channel'] });
+ 	next();
+}
+
+app.use(initPubnub);
 
 app.use('/', index);
 app.use('/users', users);

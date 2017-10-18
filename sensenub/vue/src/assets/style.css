@@ -1,0 +1,32 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: 'Open Sans', sans-serif;
+}
+
+body {
+	background: #1c1d1f;
+	color: #efefef;
+}
+
+div.graph {
+	width: 700px;
+	height: 500px;
+	margin: 50px;
+	background: #303133;
+	position: relative;
+}
+
+div.graph div.bar {
+	width: 7px;
+	float: left;
+	background: rgba(0, 0, 0, .2);
+	border-top: 2px solid lightblue;
+	position: absolute;
+	bottom: 0;
+}
+
+div.graph div.bar:last-of-type {
+	transition: all 1s;
+}
