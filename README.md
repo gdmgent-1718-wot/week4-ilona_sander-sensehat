@@ -1,5 +1,4 @@
-# SenseNub Dasboard
----
+# SenseNub Dashboard
 
 ## Navigatie
 - [python](../tree/master/python)
@@ -10,10 +9,10 @@
 - Ilona Zancaner
 ---
 - Opleidingsonderdeel: Web Of Things
-Academiejaar: 2017-2018
-Opleiding: Bachelor in de Grafische en Digitale Media
-Afstudeerrichting: Multimediaproductie
-Keuzeoptie: NMD
-Opleidingsinstelling: Arteveldehogeschool
+- Academiejaar: 2017-2018
+- Opleiding: Bachelor in de Grafische en Digitale Media
+- Afstudeerrichting: Multimediaproductie
+- Keuzeoptie: NMD
+- Opleidingsinstelling: Arteveldehogeschool
 
 
