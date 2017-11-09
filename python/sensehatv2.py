@@ -1,7 +1,7 @@
+from pubnub.pubnub import PubNub
 from pubnub.callbacks import SubscribeCallback
 from pubnub.enums import PNStatusCategory
 from pubnub.pnconfiguration import PNConfiguration
-from pubnub.pubnub import PubNub
 import os, json, time
 from sense_hat import SenseHat
 
@@ -26,16 +26,13 @@ class MySubscribeCallback(SubscribeCallback):
         if status.category == PNStatusCategory.PNUnexpectedDisconnectCategory:
             pass
         elif status.category == PNStatusCategory.PNConnectedCategory:
-            pubnub.publish().channel("test-channel").message(messagejson).async(my_publish_callback)
+            pubnub.publish().channel("constant-data").message(messagejson).async(my_publish_callback)
         elif status.category == PNStatusCategory.PNReconnectedCategory:
             pass
         elif status.category == PNStatusCategory.PNDecryptionErrorCategory:
             pass
     def message(self, pubnub, message):
         pass
-
-pubnub.add_listener(MySubscribeCallback())
-pubnub.subscribe().channels('test-channel').execute()
 
 while 1:
     def get_cpu_temp():
@@ -61,5 +58,6 @@ while 1:
 
     messagejson = {"humidity": str(humidity), "temperature": str(roomTemp), "pressure": str(pressure), "north": str(north)
                    }
-    pubnub.publish().channel("test-channel").message(messagejson).async(my_publish_callback)
-    time.sleep(1)
+    pubnub.add_listener(MySubscribeCallback())
+    pubnub.subscribe().channels('constant-data').execute()
+    time.sleep(60)
