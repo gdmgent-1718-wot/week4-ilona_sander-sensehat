@@ -1,13 +1,14 @@
 <template>
-	<section class="section_third circle_graph">
-        <h1>{{ item.name }}</h1>
-        <h2>{{ item.current }} mb</h2>
-        <div class="small_graph">
-            <div class="bar min" v-bind:style="{ opacity: 1-(item.percentage)/100, width: item.percentage + '%' }"></div>
-            <div class="bar max" v-bind:style="{ opacity: item.percentage/100, width: item.percentage + '%' }"></div>
+	<section>
+        <div class="icon">
+            <i v-if="item.abbr == '°C'" style="background-color: #ff7a7a; padding: 1.5vh 2.8vh;" class="fa fa-thermometer-half"></i>
+            <i v-if="item.abbr == '%'" style="background-color: #6f6fff; padding: 1.8vh 2.8vh;" class="fa fa-tint"></i>
+            <i v-if="item.abbr == 'mb'" style="background-color: #4cb14c; padding: 1.4vh 1.75vh;" class="fa fa-cube"></i>
         </div>
-        <h4>Min: {{ item.min }} mb</h4>
-        <h3>Max: {{ item.max }} mb</h3>
+        <div class="info">
+            <h1>{{ item.current }} {{ item.abbr }}</h1>
+            <h2>{{ item.name }}</h2>
+        </div>
     </section>
 </template>
 
@@ -18,9 +19,6 @@
         data() {
             return {
             }
-        },
-        mounted() {
-            console.log(this.item);
         }
     }
 </script>

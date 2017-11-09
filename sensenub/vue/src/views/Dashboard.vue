@@ -7,16 +7,16 @@
             <section id="scroller" v-bind:style="{ left: '-' + temperature.current * 10 + '%' }"></section>
         </div>
 
-        <smallgraph :item="temperature"></smallgraph>
-        <smallgraph :item="humidity"></smallgraph>
-        <smallgraph :item="pressure"></smallgraph>
+        <aside>
+            <div class="graphClick" v-on:click="viewing = temperature"><smallgraph :item="temperature"></smallgraph></div>
+            <div class="graphClick" v-on:click="viewing = humidity"><smallgraph :item="humidity"></smallgraph></div>
+            <div class="graphClick" v-on:click="viewing = pressure"><smallgraph :item="pressure"></smallgraph></div>
+        </aside>
 
-        <!-- <div class="graph">
-            <div v-for="value, key in data" class="bar" v-bind:style="{ height: (parseFloat(value) * 10) + 'px', left: (key * 7) + 'px' }">
-            </div>
-            <h1>Temperature</h1>
-            <h2>{{ temperature }}°C</h2>
-        </div> -->
+        <main>
+            <h1>{{ viewing.name }}</h1>
+            <div class="chart"><canvas id="chart"></canvas></div>
+        </main>
     </div>
 </template>
 
@@ -26,67 +26,57 @@
     export default {
         name: 'dashboard',
         components: { smallgraph },
-        data () {
+        data() {
             return {
                 temperature: {
-                    current: 20,
-                    min: 0,
-                    max: 40,
-                    percentage: 50,
+                    current: '-',
                     name: 'Temperature',
+                    color: '255, 122, 122',
+                    abbr: '°C',
                 },
                 humidity: {
-                    current: 30,
-                    min: 0,
-                    max: 60,
-                    percentage: 50,
+                    current: '-',
                     name: 'Humidity',
+                    color: '111, 111, 255',
+                    abbr: '%',
                 },
                 pressure: {
-                    current: 1000,
-                    min: 0,
-                    max: 1500,
-                    percentage: 50,
+                    current: '-',
                     name: 'Pressure',
+                    color: '76, 177, 76',
+                    abbr: 'mb',
                 },
-                data: [],
-                test: 0
+
+                viewing: [],                
+                chartdata: [],
+
+                data: null,
             }
         },
-        created () {
-            for (var i = 0; i < 100; i++) { this.data.push(Math.floor((Math.random() * 50) + 1)); }
-
-            this.pubnub.load();
-        },
-        mounted () {
+        mounted() {
             var that = this;
-
-            this.$pubnub.subscribe({ channels: ['test-channel'] });
-
+            this.pubnub.load();
+            this.$pubnub.subscribe({ channels: ['constant-data', 'hourly-data'] });
             this.$pubnub.addListener({
                 message: function(message) {
-                    var data = message.message;
-                    // that.temperature.current = Math.floor((Math.random() * 40) + 1);
+                    that.data = message.message;
 
-                    // TEMPERATURE
-                    that.temperature.current = Math.round(data.temperature * 100) / 100;
-                    that.temperature.percentage = (that.temperature.current / that.temperature.max) * 100;
-                    if (that.temperature.current > that.temperature.max) { that.temperature.max = that.temperature.current }
-
-                    // HUMIDITY
-                    that.humidity.current = Math.round(data.humidity * 100) / 100;
-                    that.humidity.percentage = (that.humidity.current / that.humidity.max) * 100;
-                    if (that.humidity.current > that.humidity.max) { that.humidity.max = that.humidity.current }
+                    that.temperature.current = Math.round(that.data.temperature * 100) / 100;
+                    that.humidity.current = Math.round(that.data.humidity * 100) / 100;
+                    that.pressure.current = Math.round(that.data.pressure * 100) / 100;
                     
-                    // PRESSURE
-                    that.pressure.current = Math.round(data.pressure * 100) / 100;
-                    that.pressure.percentage = (that.pressure.current / that.pressure.max) * 100;
-                    if (that.pressure.current > that.pressure.max) { that.pressure.max = that.pressure.current }
-
-                    // that.data.push(temp + that.test);                    
-                    // if (that.data.length > 100) that.data.shift();
+                    // if (data.channel == 'constant-data') { that.renderChart(that.viewing) }
                 }
             });
-        }
+        },
+        watch: {
+            data() { console.log(this.data); }
+        },
+        computed: {
+
+        },
+        methods: {
+
+        },
     }
 </script>
