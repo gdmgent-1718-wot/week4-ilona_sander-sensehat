@@ -85,7 +85,8 @@ aside {
         margin-right: 2%;
         background: white;
         box-shadow: 10px 10px 0 rgba(black, 0.2);
-    
+        transition: all 0.2s;
+
         .icon, .info {
             float: left;
         }
@@ -119,6 +120,21 @@ aside {
     }
 
     .graphClick:last-of-type section {
-        margin: 0;
+        margin-right: 0;
     }
+
+    .selected:last-of-type section,
+    .graphClick:last-of-type section:hover {
+        margin-right: -5px;
+    }
+
+    .graphClick section:hover, .selected section {
+        box-shadow: 5px 5px 0 rgba(black, 0.2);
+        margin-left: 5px;
+        margin-top: 5px;
+        margin-right: calc(2% - 5px);
+        cursor: pointer;
+    }
+
+    .selected section { background: #efefef; }
 }

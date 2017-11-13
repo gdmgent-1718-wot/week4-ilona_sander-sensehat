@@ -74,7 +74,8 @@ aside {
     height: 13vh;
     margin-right: 2%;
     background: white;
-    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.2); }
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.2);
+    transition: all 0.2s; }
     aside section .icon, aside section .info {
       float: left; }
     aside section .icon i {
@@ -94,6 +95,17 @@ aside {
         font-size: 2rem;
         color: #cecece; }
   aside .graphClick:last-of-type section {
-    margin: 0; }
+    margin-right: 0; }
+  aside .selected:last-of-type section,
+  aside .graphClick:last-of-type section:hover {
+    margin-right: -5px; }
+  aside .graphClick section:hover, aside .selected section {
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-right: calc(2% - 5px);
+    cursor: pointer; }
+  aside .selected section {
+    background: #efefef; }
 
 /*# sourceMappingURL=style.css.map */
